@@ -9,7 +9,6 @@ from matplotlib.backends.backend_gtk3agg import FigureCanvasGTK3Agg as FigureCan
 from matplotlib.figure import Figure
 
 import timeit
-from typing import Dict
 
 from tests_base import TIMINGS
 version=sys.version_info.minor
@@ -24,15 +23,13 @@ print(" - structural pattern matching")
 del version#we don't want this as a global variable
 
 class Timer:
-	value:float
-	rounds:int
-	name:str
-	def __init__(self,name:str,stmt:str,setup:str="pass",globals=None):
+	__slots__=["name","rounds","value","_stmt","_setup","_globals"]
+	def __init__(self,name,stmt,setup="pass",globals=None):
 		self.name=name
 		self._stmt=stmt
 		self._setup=setup
 		self._globals=globals
-	def set_values(self,rounds:int,ms:float):
+	def set_values(self,rounds,ms):
 		"""MICROseconds, not milliseconds"""
 		self.rounds=rounds
 		self.value=ms
@@ -41,8 +38,8 @@ class Timer:
 		self.set_values(*_timer.autorange())
 
 class Main:
-	going:bool=False
-	iterc:int=5
+	going=False
+	iterc=5
 	def __init__(self):
 		self.win=Gtk.Window()
 		self.win.connect("delete-event",Gtk.main_quit)
@@ -94,7 +91,7 @@ class Main:
 			btn=Gtk.Button(label=name)
 			btn.connect("button-press-event",self._on_start)
 			btnbox.pack_start(btn,False,True,0)
-	def set_progress(self,fraction:float,upper:bool=False):
+	def set_progress(self,fraction,upper=False):
 		if upper:
 			progr=self.progr1
 		else:
