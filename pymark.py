@@ -126,7 +126,7 @@ class Main:
 		self.progr1.set_opacity(0)
 		self.progr2.set_opacity(0)
 		self.going=False
-		self.spin.set_range(0,2**16)
+		self.spin.set_range(1,2**16)
 		return True
 	def _on_spin(self,widget:Gtk.SpinButton)->bool:
 		self.iterc=int(widget.get_value())
