@@ -10,9 +10,6 @@ Timing=Dict[str,List[Union[Tuple[str,str],Tuple[str,str,str],Tuple[str,str,str,D
 def randiter(amount:int,min:int,max:int)->Generator[int,None,None]:
 	return (randrange(min,max) for i in range(amount))
 
-def randstr(size):
-    return ''.join(chr(randrange(1,2048)) for x in range(size))
-
 def t_func(x:int)->int:
 	return x+1
 
@@ -124,11 +121,3 @@ TIMINGS={
 	("a+b (list)","x=a+x","x=[]\na=rands()",{"rands":(lambda:list(randiter(20,0,100)))})
 	]
 }
-#dynamically filling tests 5-char encryption and 20-char encryption
-for nr in (5,20):
-	encrs=[]
-	for meth in crypt.methods:
-		encrs.append(
-			(meth.name,f"x=encrypt(randstr({nr}),meth)","",{"randstr":randstr,"meth":meth,"encrypt":crypt.crypt})
-			)
-	TIMINGS[f"{nr}-char encryption"]=encrs

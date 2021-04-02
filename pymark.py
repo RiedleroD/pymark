@@ -18,14 +18,21 @@ from statistics import mean
 from tests_base import TIMINGS
 
 version=sys.version_info.minor
-if(version>=10):
-	print("enabled py>=3.10 tests:")
+if version>=10:
+	print("enabled python>=3.10 tests:")
 	from tests_3_10 import timings_mod as tmod
 	tmod(TIMINGS)
 else:
-	print("disabled py>=3.10 tests:")
+	print("disabled python>=3.10 tests:")
 print(" - structural pattern matching")
 del version#we don't want this as a global variable
+
+#possible: 'posix', 'nt', 'os2', 'ce', 'java', and 'riscos'
+if os.name=="posix":
+	print("enabled posix-specific tests:")
+	print(" - cryptography (unix)")
+	from tests_posix import timings_mod as tmod
+	tmod(TIMINGS)
 
 class Timer:
 	__slots__=["name","rounds","value","_stmt","_setup","_globals"]
