@@ -42,6 +42,7 @@ class Main:
 	def __init__(self):
 		self.win=Gtk.Window()
 		self.win.connect("delete-event",Gtk.main_quit)
+		self.win.set_default_size(720,480)
 		self.fig=Figure(figsize=(10,10),dpi=100)
 		self.ax=self.fig.add_subplot()
 		self.canvas = FigureCanvas(self.fig)
