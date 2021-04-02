@@ -121,6 +121,7 @@ class Main:
 				vals[j]+=_vals[j]
 			self.ax.clear()
 			self.ax.barh(_names,[val/i for val in vals])
+			self.fig.tight_layout()
 			self.canvas.draw()
 			self.set_progress(i/iterc,True)
 		self.progr1.set_opacity(0)
