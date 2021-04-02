@@ -112,12 +112,17 @@ class Main:
 				Gtk.main_iteration_do(False)
 	def set_bars(self,cache:Dict[str,List[float]]):
 		names=tuple(cache.keys())
-		means=tuple(mean(samples) for samples in cache.values())
-		#TODO: add error margin
+		means=[]
+		errs=([],[])
+		for samples in cache.values():
+			m=mean(samples)
+			errs[0].append(m-min(samples))
+			errs[1].append(max(samples)-m)
+			means.append(m)
 		if self.bars:
 			self.ax.clear()
 		self.ax.xaxis.set_major_formatter(MPLFormatter("%0.2fµs"))
-		self.bars=self.ax.barh(names,means)
+		self.bars=self.ax.barh(names,means,xerr=errs,capsize=10)
 		self.fig.tight_layout()
 	def _on_start(self,widget:Gtk.Button,event:Gdk.EventButton)->bool:
 		if self.going:
