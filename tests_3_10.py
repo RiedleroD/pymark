@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-from tests_base import poss_maybe
+from tests_base import poss_maybe,Timing
 
-def t_sb_match(num):
+from typing import Union
+
+def t_sb_match(num:int)->str:
 	match num:
 		case 1:
 			return "Sehr Gut"
@@ -14,7 +16,7 @@ def t_sb_match(num):
 		case 5:
 			return "Nicht Genügend"
 
-def t_mb_match(maybe):
+def t_mb_match(maybe:str)->Union[bool,None]:
 	match maybe.lower():
 		case "j"|"ja"|"y"|"yes":
 			return True
@@ -23,7 +25,7 @@ def t_mb_match(maybe):
 		case _:
 			return None
 
-def timings_mod(timings):
+def timings_mod(timings:Timing):
 	timings["single-value branching"].append(
 		("match case","x=branch(randint(1,5))","from random import randint",{"branch":t_sb_match})
 		)

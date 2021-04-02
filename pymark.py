@@ -3,10 +3,13 @@
 import os,sys,random
 import gi
 gi.require_version("Gtk","3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk,Gdk
 
 from matplotlib.backends.backend_gtk3agg import FigureCanvasGTK3Agg as FigureCanvas
 from matplotlib.figure import Figure
+
+from typing import Union,Any,Optional,Tuple,List,Dict,Iterable
+from tests_base import Timing
 
 import timeit
 
@@ -24,18 +27,14 @@ del version#we don't want this as a global variable
 
 class Timer:
 	__slots__=["name","rounds","value","_stmt","_setup","_globals"]
-	def __init__(self,name,stmt,setup="pass",globals=None):
+	def __init__(self,name:str,stmt:str,setup:str="pass",globals:Optional[Dict[str,Any]]=None):
 		self.name=name
 		self._stmt=stmt
 		self._setup=setup
 		self._globals=globals
-	def set_values(self,rounds,ms):
-		"""MICROseconds, not milliseconds"""
-		self.rounds=rounds
-		self.value=ms
 	def evaluate(self):
 		_timer=timeit.Timer(stmt=self._stmt,setup=self._setup,globals=self._globals)
-		self.set_values(*_timer.autorange())
+		self.rounds,self.value=_timer.autorange()
 
 class Main:
 	going=False
@@ -73,7 +72,7 @@ class Main:
 		self.win.show_all()
 		self.progr1.set_opacity(0)
 		self.progr2.set_opacity(0)
-	def measure(self,todos):
+	def measure(self,todos:Iterable[Timing])->Tuple[List[str],List[float]]:
 		self.set_progress(0)
 		names=[]
 		vals=[]
@@ -86,12 +85,12 @@ class Main:
 			vals.append(t.value)
 		self.set_progress(1.0)
 		return names,vals
-	def fill_btnbox(self,btnbox,timings):
+	def fill_btnbox(self,btnbox:Gtk.ButtonBox,timings:Dict[str,Timing]):
 		for name in timings.keys():
 			btn=Gtk.Button(label=name)
 			btn.connect("button-press-event",self._on_start)
 			btnbox.pack_start(btn,False,True,0)
-	def set_progress(self,fraction,upper=False):
+	def set_progress(self,fraction:float,upper:bool=False):
 		if upper:
 			progr=self.progr1
 		else:
@@ -100,7 +99,7 @@ class Main:
 		if not upper:
 			while Gtk.events_pending():
 				Gtk.main_iteration_do(False)
-	def _on_start(self,widget,event):
+	def _on_start(self,widget:Gtk.Button,event:Gdk.EventButton)->bool:
 		if self.going:
 			return True
 		self.going=True
@@ -128,7 +127,7 @@ class Main:
 		self.going=False
 		self.spin.set_range(0,2**16)
 		return True
-	def _on_spin(self,widget):
+	def _on_spin(self,widget:Gtk.SpinButton)->bool:
 		self.iterc=int(widget.get_value())
 		return True
 

@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 from random import randrange
 
-def randiter(amount,min,max):
+from typing import Generator,Union,Dict,List,Tuple,Any
+
+#I checked, this is the best possible way to do this annotation
+Timing=Dict[str,List[Union[Tuple[str,str],Tuple[str,str,str],Tuple[str,str,str,Dict[str,Any]]]]]
+
+def randiter(amount:int,min:int,max:int)->Generator[int,None,None]:
 	return (randrange(min,max) for i in range(amount))
 
-def t_func(x):
+def t_func(x:int)->int:
 	return x+1
 
-def t_sb_elif_is(num):
+def t_sb_elif_is(num:int)->str:
 	if num==1:
 		return "Sehr Gut"
 	elif num==2:
@@ -19,7 +24,7 @@ def t_sb_elif_is(num):
 	elif num==5:
 		return "Nicht Genügend"
 
-def t_mb_elif_is(maybe):
+def t_mb_elif_is(maybe:str)->Union[bool,None]:
 	m=maybe.lower()
 	if m=="j" or m=="ja" or m=="y" or m=="yes":
 		return True
@@ -28,7 +33,7 @@ def t_mb_elif_is(maybe):
 	else:
 		return None
 
-def t_mb_elif_in(maybe):
+def t_mb_elif_in(maybe:str)->Union[bool,None]:
 	m=maybe.lower()
 	if m in ("j","ja","y","yes"):
 		return True
