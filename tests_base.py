@@ -104,6 +104,20 @@ TIMINGS={
 	("\"a%i\"%x","num=randrange(0,99)\nx=\"num=%i\"%num","from random import randrange"),
 	("\"a\"+str(x)","num=randrange(0,99)\nx=\"num=\"+str(num)","from random import randrange")
 	],
+"Double String concatenation":[
+	("f\"{a}{b}\"","x=f\"{a:s}{b:s}\"","a=randstr(20)\nb=randstr(20)",{"randstr":randstr}),
+	("\"{}{}\".format(a,b)","x=\"{:s}{:s}\".format(a,b)","a=randstr(20)\nb=randstr(20)",{"randstr":randstr}),
+	("\"%s%s\"%(a,b)","x=\"%s%s\"%(a,b)","a=randstr(20)\nb=randstr(20)",{"randstr":randstr}),
+	("\"\".join((a,b))","x=\"\".join((a,b))","a=randstr(20)\nb=randstr(20)",{"randstr":randstr}),
+	("a+b","x=a+b","a=randstr(20)\nb=randstr(20)",{"randstr":randstr})
+	],
+"Triple String concatenation":[
+	("f\"{a}{b}{c}\"","x=f\"{a:s}{b:s}{c:s}\"","a=randstr(20)\nb=randstr(20)\nc=randstr(20)",{"randstr":randstr}),
+	("\"{}{}{}\".format(a,b,c)","x=\"{:s}{:s}{:s}\".format(a,b,c)","a=randstr(20)\nb=randstr(20)\nc=randstr(20)",{"randstr":randstr}),
+	("\"%s%s%s\"%(a,b,c)","x=\"%s%s%s\"%(a,b,c)","a=randstr(20)\nb=randstr(20)\nc=randstr(20)",{"randstr":randstr}),
+	("\"\".join((a,b,c))","x=\"\".join((a,b,c))","a=randstr(20)\nb=randstr(20)\nc=randstr(20)",{"randstr":randstr}),
+	("a+b+c","x=a+b+c","a=randstr(20)\nb=randstr(20)\nc=randstr(20)",{"randstr":randstr})
+	],
 "single-value branching":[
 	("elif equal","x=branch(randint(1,5))","from random import randint",{"branch":t_sb_elif_is}),
 	("mapping","x=keys[randint(1,5)]","from random import randint",{"keys":keys_noten})
