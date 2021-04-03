@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from random import randrange
-import crypt
+import hashlib
 
 from typing import Generator,Union,Dict,List,Tuple,Any
 
@@ -9,6 +9,12 @@ Timing=Dict[str,List[Union[Tuple[str,str],Tuple[str,str,str],Tuple[str,str,str,D
 
 def randiter(amount:int,min:int,max:int)->Generator[int,None,None]:
 	return (randrange(min,max) for i in range(amount))
+
+def randstr(size):#0.047µs with 20 chars
+    return str(bytes(randrange(1,256) for x in range(size)))
+
+def randbytes(size):#0.045µs with 20 chars
+	return bytes(randrange(1,256) for x in range(size))
 
 def t_func(x:int)->int:
 	return x+1
@@ -121,3 +127,9 @@ TIMINGS={
 	("a+b (list)","x=a+x","x=[]\na=rands()",{"rands":(lambda:list(randiter(20,0,100)))})
 	]
 }
+
+for nr in (5,20):
+	TIMINGS[f"{nr}-char encryption"]=[
+		(alg.upper()+" (hashlib)",f"x=hash(alg,randbytes({nr}))","",{"randbytes":randbytes,"hash":hashlib.new,"alg":alg})
+		for alg in hashlib.algorithms_available
+		]

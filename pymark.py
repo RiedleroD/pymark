@@ -30,9 +30,11 @@ del version#we don't want this as a global variable
 #possible: 'posix', 'nt', 'os2', 'ce', 'java', and 'riscos'
 if os.name=="posix":
 	print("enabled posix-specific tests:")
-	print(" - cryptography (unix)")
 	from tests_posix import timings_mod as tmod
 	tmod(TIMINGS)
+else:
+	print("disabled posix-specific tests:")
+print(" - encryption (crypt library)")
 
 class Timer:
 	__slots__=["name","rounds","value","_stmt","_setup","_globals"]
