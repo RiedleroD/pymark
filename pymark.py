@@ -124,8 +124,9 @@ class Main:
 		if self.bars:
 			self.ax.clear()
 		self.ax.xaxis.set_major_formatter(MPLFormatter("%0.2fµs"))
-		self.bars=self.ax.barh(names,means,xerr=errs,capsize=10)
+		self.bars=self.ax.barh(names,means,xerr=errs,capsize=80/len(cache))
 		self.fig.tight_layout()
+		self.canvas.draw()
 	def _on_start(self,widget:Gtk.Button,event:Gdk.EventButton)->bool:
 		if self.going:
 			return True
@@ -135,7 +136,6 @@ class Main:
 		self.progr2.set_opacity(1)
 		self.set_progress(0,True)
 		self.set_progress(0,False)
-		self.canvas.draw()
 		timings=TIMINGS[widget.get_label()]
 		cache={timing[0]:[] for timing in timings}
 		iterc=self.iterc
@@ -143,7 +143,6 @@ class Main:
 			for name,val in zip(*self.measure(timings)):
 				cache[name].append(val)
 			self.set_bars(cache)
-			self.canvas.draw()
 			self.set_progress(i/iterc,True)
 		self.progr1.set_opacity(0)
 		self.progr2.set_opacity(0)
