@@ -8,7 +8,7 @@ def timings_mod(TIMINGS:Timing):
 	#dynamically filling tests 5-char encryption and 20-char encryption
 	for nr in (5,20):
 		encrs=[
-			(meth.name+" (crypt)",f"x=encrypt(randstr({nr}),meth)","",{"randstr":randstr,"meth":meth,"encrypt":crypt.crypt})
+			(meth.name+" (crypt)",f"encrypt(randstr({nr}),meth)","",{"randstr":randstr,"meth":meth,"encrypt":crypt.crypt})
 			for meth in crypt.methods
 			]
 		key=f"{nr}-char encryption"

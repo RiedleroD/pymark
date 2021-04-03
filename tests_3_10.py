@@ -27,7 +27,7 @@ def t_mb_match(maybe:str)->Union[bool,None]:
 
 def timings_mod(timings:Timing):
 	timings["single-value branching"].append(
-		("match case","x=branch(randint(1,5))","from random import randint",{"branch":t_sb_match})
+		("match case","branch(randint(1,5))","from random import randint",{"branch":t_sb_match})
 		)
 	timings["multiple-value branching"].append(
 		("match case","branch(choice(poss))","from random import choice",{"branch":t_mb_match,"poss":poss_maybe})
